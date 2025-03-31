@@ -1,5 +1,5 @@
 
-# 🐾 ms-bff - Microservicio Backend For Frontend
+# ms-bff - Microservicio Backend For Frontend
 
 Este microservicio forma parte del sistema de gestión de usuarios y roles para una veterinaria. El `ms-bff` actúa como intermediario entre el frontend y servicios externos como Azure Functions y Oracle Database.
 
@@ -14,24 +14,6 @@ Este microservicio forma parte del sistema de gestión de usuarios y roles para 
 - **AWS EC2 (Ubuntu 24.04)**
 - **Postman (para pruebas)**
 - **Docker Hub (almacenamiento de imágenes)**
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-ms-bff
-│-- src
-│   └── main
-│       └── java/com/vet/ms_bff
-│           ├── configuration/security/WebSecurityConfig.java
-│           ├── presentation/controller/UsuarioController.java
-│           ├── presentation/dto/UsuarioDto.java
-│           └── service/implementation/UsuarioServiceImpl.java
-│-- Dockerfile
-│-- application.properties
-│-- pom.xml
-```
 
 ---
 
@@ -109,4 +91,7 @@ ms-bff
   ```
 
 ---
+Diagrama
+
+![Diagrama_Sumativa1](https://github.com/user-attachments/assets/aac28acd-afe1-4aa8-bbf7-41d18ed56c2c)
 
