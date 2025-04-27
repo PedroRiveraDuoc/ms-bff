@@ -1,4 +1,3 @@
-
 # 🐾 ms-bff - Microservicio Backend For Frontend
 
 Este microservicio forma parte del sistema de gestión de usuarios y roles para una veterinaria. El `ms-bff` actúa como intermediario entre el frontend y servicios externos como Azure Functions y Oracle Database.
@@ -42,6 +41,7 @@ ms-bff
 | `UsuarioController`     | Exposición de endpoints REST |
 | `Azure Function - CreateUser` | Se invoca desde el método `crearUsuario()` para crear usuarios en Oracle |
 | `Azure Function - AssignRole` | Se invoca desde `asignarRol()` para asignar roles a un usuario |
+| `Azure Function - DeleteRole` | Se invoca desde `eliminarRol()` para eliminar roles y actualizar usuarios |
 | `Oracle Database`       | Base de datos donde persisten usuarios y roles |
 | `DockerHub`             | Imagen `pedroriveraduoc/ms-bff:latest` publicada |
 | `EC2 AWS`               | Instancia t2.micro con Ubuntu + Docker corriendo el microservicio |
@@ -79,13 +79,13 @@ ms-bff
 
 ---
 
-
 ## 🧪 Endpoints disponibles
 
 | Método | Ruta                       | Descripción |
 |--------|----------------------------|-------------|
-| POST   | `/usuario`                 | Crea un nuevo usuario (con Azure Function) |
-| POST   | `/asignar-rol`             | Asigna rol a usuario (con Azure Function) |
+| POST   | `/usuario`                 | Crea un nuevo usuario y le asigna automáticamente un rol por defecto |
+| POST   | `/usuario/asignar-rol`     | Asigna un rol específico a un usuario existente |
+| DELETE | `/usuario/rol/{rolId}`     | Elimina un rol y actualiza los usuarios que lo tenían asignado |
 
 ### Ejemplo POST `/usuario`
 
@@ -96,12 +96,44 @@ ms-bff
 }
 ```
 
+### Ejemplo POST `/usuario/asignar-rol`
+
+```
+?userId=123&rolId=2
+```
+
+### Ejemplo DELETE `/usuario/rol/{rolId}`
+
+```
+/usuario/rol/2
+```
+
+---
+
+## 🔄 Flujo de Trabajo
+
+1. **Creación de Usuario**
+   - Se crea el usuario en la base de datos
+   - Se le asigna automáticamente el rol por defecto (Cliente)
+   - Se retorna el ID del usuario creado
+
+2. **Asignación de Rol**
+   - Se verifica que el usuario y el rol existan
+   - Se asigna el rol al usuario
+   - Se retorna el resultado de la operación
+
+3. **Eliminación de Rol**
+   - Se elimina el rol de la base de datos
+   - Se actualizan los usuarios que tenían este rol
+   - Se les asigna un rol por defecto si es necesario
+   - Se retorna el resultado de la operación
+
 ---
 
 ## 🧪 Pruebas con Postman
 
-- Accede a la URL:  
-  `http://<IP_PUBLICA_EC2>:8080/usuario`
+- Accede a la URL base:  
+  `http://<IP_PUBLICA_EC2>:8080`
 
 - Headers:
   ```
@@ -109,4 +141,10 @@ ms-bff
   ```
 
 ---
+
+## 📝 Notas Importantes
+
+- El ID del rol por defecto está configurado como "1" en el servicio
+- Al eliminar un rol, los usuarios afectados serán actualizados automáticamente
+- Las operaciones son atómicas: si falla alguna parte de la operación, se realiza un rollback
 
