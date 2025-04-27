@@ -16,24 +16,6 @@ Este microservicio forma parte del sistema de gestión de usuarios y roles para 
 
 ---
 
-## 📁 Estructura del Proyecto
-
-```
-ms-bff
-│-- src
-│   └── main
-│       └── java/com/vet/ms_bff
-│           ├── configuration/security/WebSecurityConfig.java
-│           ├── presentation/controller/UsuarioController.java
-│           ├── presentation/dto/UsuarioDto.java
-│           └── service/implementation/UsuarioServiceImpl.java
-│-- Dockerfile
-│-- application.properties
-│-- pom.xml
-```
-
----
-
 ## 🔌 Conexiones Establecidas
 
 | Componente              | Descripción |
@@ -141,6 +123,9 @@ ms-bff
   ```
 
 ---
+Diagrama
+
+![Diagrama_Sumativa1](https://github.com/user-attachments/assets/aac28acd-afe1-4aa8-bbf7-41d18ed56c2c)
 
 ## 📝 Notas Importantes
 
